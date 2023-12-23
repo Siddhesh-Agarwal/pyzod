@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "pyzod"
+version = "0.1.0"
+description = "A data validation library for Python"
+authors = ["Siddhesh Agarwal <siddhesh.agarwal@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/Siddhesh-Agarwal/pyzod"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311', 'py312']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
