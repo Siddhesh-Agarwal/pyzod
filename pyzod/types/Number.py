@@ -16,13 +16,13 @@ class Number:
     """
 
     def __init__(self):
-        self._upper_bound: Union[int | float, None] = None
-        self._lower_bound: Union[int | float, None] = None
+        self._upper_bound: Union[int, float, None] = None
+        self._lower_bound: Union[int, float, None] = None
         self._error_msg: Dict[str, Union[str, None]] = {}
-        self._type = None
+        self._type: Literal[int, float, None] = None
 
     def upper_bound(
-        self, upper_bound: int | float, *, error_msg: Union[str, None] = None
+        self, upper_bound: Union[int, float], *, error_msg: Union[str, None] = None
     ):
         """Sets the upper bound (included) of the number"""
         self._upper_bound = upper_bound
@@ -30,7 +30,7 @@ class Number:
         return self
 
     def lower_bound(
-        self, lower_bound: int | float, *, error_msg: Union[str, None] = None
+        self, lower_bound: Union[int, float], *, error_msg: Union[str, None] = None
     ):
         """Sets the lower bound (included) of the number"""
         self._lower_bound = lower_bound
@@ -39,8 +39,8 @@ class Number:
 
     def set_bounds(
         self,
-        lower_bound: int | float,
-        upper_bound: int | float,
+        lower_bound: Union[int, float],
+        upper_bound: Union[int, float],
         *,
         error_msg: Union[str, None] = None,
     ):
@@ -52,10 +52,10 @@ class Number:
         return self
 
     def set_type(
-        self, type_: Literal["int", "float"], *, error_msg: Union[str, None] = None
+        self, type_: Literal[int, float], *, error_msg: Union[str, None] = None
     ):
         """Sets the type of the number"""
-        self._type = type_
+        self._type = str(type_)
         self._error_msg["type"] = error_msg
         return self
 
@@ -81,8 +81,46 @@ class Number:
             return False
 
         # Check if the number is the correct type
-        if self._type is not None and not str(type(value)) == self._type:
+        if self._type is not None and not isinstance(value, self._type):
             if "type" in self._error_msg and self._error_msg["type"] is not None:
                 raise ValueError(self._error_msg["type"])
             return False
         return True
+
+
+class Integer(Number):
+    """
+    >>> Type = Integer().upper_bound(10).lower_bound(5)
+    >>> Type = Integer().set_bounds(5, 10)
+    >>> Type.validate(7)
+    True
+    >>> Type.validate(11)
+    False
+    >>> Type.validate(4)
+    False
+    >>> Type.validate(7.5)
+    False
+    """
+
+    def __init__(self):
+        super().__init__()
+        self._type = "int"
+
+
+class Float(Number):
+    """
+    >>> Type = Float().upper_bound(10).lower_bound(5)
+    >>> Type = Float().set_bounds(5, 10)
+    >>> Type.validate(7)
+    True
+    >>> Type.validate(11)
+    False
+    >>> Type.validate(4)
+    False
+    >>> Type.validate(7.5)
+    True
+    """
+
+    def __init__(self):
+        super().__init__()
+        self._type = "float"

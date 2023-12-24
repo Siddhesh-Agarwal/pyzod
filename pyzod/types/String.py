@@ -20,15 +20,15 @@ class String:
         self._error_msg: Dict[str, Union[str, None]] = {}
         self._allowed = None
 
-    def set_min(self, min: int, *, error_msg: Union[str, None] = None):
+    def set_min(self, min_: int, *, error_msg: Union[str, None] = None):
         """Sets the minimum length of the string"""
-        self._min = min
+        self._min = min_
         self._error_msg["min"] = error_msg
         return self
 
-    def set_max(self, max: int, *, error_msg: Union[str, None] = None):
+    def set_max(self, max_: int, *, error_msg: Union[str, None] = None):
         """Sets the maximum length of the string"""
-        self._max = max
+        self._max = max_
         self._error_msg["max"] = error_msg
         return self
 
